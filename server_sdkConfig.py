@@ -63,14 +63,6 @@ def request_api(environ, start_response):
         # 处理数据
         if path_info == '/post':
             response_dic = path_post(environ)
-        elif path_info == '/getAllConfig':
-            response_dic = get_all_config(environ)
-        elif path_info == '/insertConfig':
-            response_dic = insert_config(environ)
-        elif path_info == '/deleteConfig':
-            response_dic = delete_config(environ)
-        elif path_info == '/updateConfig':
-            response_dic = update_config(environ)
         else:
             status = '404 pathError'
         start_response(status, response_headers)
@@ -122,77 +114,122 @@ def path_post(environ):
     return {'code': '200', 'data': dataArr}
 
 
-# --------------------------  MySql数据库处理 -------------------------
-def get_all_config(environ):
-    # 获取请求附带的body参数 {num: [1-3]}
-    content_length = environ['CONTENT_LENGTH']
-    # 判断是否为数字
-    if content_length.isdigit():
-        body_length = int(content_length)
-        if body_length > 4:
-            # 获取请求参数
-            request_body = environ['wsgi.input'].read(body_length)
-            request_body = json.loads(request_body)
-            print('request_body:', request_body)
-            return {'code': '200', 'data': mysql_manager.fetch_data(request_body['userID'])}
+'''
+'''
+class server_manager(object):
 
-    return {'code': '-100', 'data': 'NULL'}
+    def __init__(self):
+        self.mysql = mysql_manager.MySQL_manager()
 
+    def request_api(self, environ, start_response):
+        # 获取请求方式
+        request_method = environ['REQUEST_METHOD']
+        response_dic = {}
+        # 域名路径
+        path_info = environ['PATH_INFO']
+        print('PATH_INFO:', path_info)
 
-def insert_config(environ):
-    # 获取请求附带的body参数 {num: [1-3]}
-    content_length = environ['CONTENT_LENGTH']
-    # 判断是否为数字
-    if content_length.isdigit():
-        body_length = int(content_length)
-        if body_length > 4:
-            # 获取请求参数
-            request_body = environ['wsgi.input'].read(body_length)
-            request_body = json.loads(request_body)
-            # print('request_body:', request_body)
-            mysql_manager.insert_data(request_body['userID'], request_body['data'])
-            return {'code': '200', 'data': mysql_manager.fetch_data(request_body['userID'])}
+        # GET请求
+        if request_method == 'GET':
+            # 定义响应状态、响应数据的格式
+            status = '200 OK'
+            response_headers = [('Content-Type', 'text/html;charset=utf-8')]
+            # 处理数据
+            if path_info == '':
+                pass
+            else:
+                status = '404 pathError'
+                response_dic = {'error': '404'}
+            start_response(status, response_headers)
 
-    return {'code': '-100', 'data': 'NULL'}
+        # POST请求
+        if request_method == 'POST':
+            # 定义响应状态、响应数据的格式
+            status = '200 OK'
+            response_headers = [('Content-Type', 'application/json')]
+            # 处理数据
+            if path_info == '/getAllConfig':
+                response_dic = self.get_all_config(environ)
+            elif path_info == '/insertConfig':
+                response_dic = self.insert_config(environ)
+            elif path_info == '/deleteConfig':
+                response_dic = self.delete_config(environ)
+            elif path_info == '/updateConfig':
+                response_dic = self.update_config(environ)
+            else:
+                status = '404 pathError'
+            start_response(status, response_headers)
 
+        return [json.dumps(response_dic).encode('utf-8')]
 
-def delete_config(environ):
-    # 获取请求附带的body参数 {num: [1-3]}
-    content_length = environ['CONTENT_LENGTH']
-    # 判断是否为数字
-    if content_length.isdigit():
-        body_length = int(content_length)
-        if body_length > 4:
-            # 获取请求参数
-            request_body = environ['wsgi.input'].read(body_length)
-            request_body = json.loads(request_body)
-            print('request_body:', request_body)
-            mysql_manager.delete_data(request_body['id'])
-            return {'code': '200', 'data': mysql_manager.fetch_data(request_body['userID'])}
+    # --------------------------  MySql数据库处理 -------------------------
+    def get_all_config(self, environ):
+        # 获取请求附带的body参数 {num: [1-3]}
+        content_length = environ['CONTENT_LENGTH']
+        # 判断是否为数字
+        if content_length.isdigit():
+            body_length = int(content_length)
+            if body_length > 4:
+                # 获取请求参数
+                request_body = environ['wsgi.input'].read(body_length)
+                request_body = json.loads(request_body)
+                print('request_body:', request_body)
+                return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
 
-    return {'code': '-100', 'data': 'NULL'}
+        return {'code': '-100', 'data': 'NULL'}
 
+    def insert_config(self, environ):
+        # 获取请求附带的body参数 {num: [1-3]}
+        content_length = environ['CONTENT_LENGTH']
+        # 判断是否为数字
+        if content_length.isdigit():
+            body_length = int(content_length)
+            if body_length > 4:
+                # 获取请求参数
+                request_body = environ['wsgi.input'].read(body_length)
+                request_body = json.loads(request_body)
+                # print('request_body:', request_body)
+                self.mysql.insert_data(request_body['userID'], request_body['data'])
+                return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
 
-def update_config(environ):
-    # 获取请求附带的body参数 {num: [1-3]}
-    content_length = environ['CONTENT_LENGTH']
-    # 判断是否为数字
-    if content_length.isdigit():
-        body_length = int(content_length)
-        if body_length > 4:
-            # 获取请求参数
-            request_body = environ['wsgi.input'].read(body_length)
-            request_body = json.loads(request_body)
-            print('request_body:', request_body)
-            mysql_manager.update_data(request_body['id'], request_body['data'])
-            return {'code': '200', 'data': mysql_manager.fetch_data(request_body['userID'])}
+        return {'code': '-100', 'data': 'NULL'}
 
-    return {'code': '-100', 'data': 'NULL'}
+    def delete_config(self, environ):
+        # 获取请求附带的body参数 {num: [1-3]}
+        content_length = environ['CONTENT_LENGTH']
+        # 判断是否为数字
+        if content_length.isdigit():
+            body_length = int(content_length)
+            if body_length > 4:
+                # 获取请求参数
+                request_body = environ['wsgi.input'].read(body_length)
+                request_body = json.loads(request_body)
+                print('request_body:', request_body)
+                self.mysql.delete_data(request_body['id'])
+                return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
+
+        return {'code': '-100', 'data': 'NULL'}
+
+    def update_config(self, environ):
+        # 获取请求附带的body参数 {num: [1-3]}
+        content_length = environ['CONTENT_LENGTH']
+        # 判断是否为数字
+        if content_length.isdigit():
+            body_length = int(content_length)
+            if body_length > 4:
+                # 获取请求参数
+                request_body = environ['wsgi.input'].read(body_length)
+                request_body = json.loads(request_body)
+                print('request_body:', request_body)
+                self.mysql.update_data(request_body['id'], request_body['data'])
+                return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
+
+        return {'code': '-100', 'data': 'NULL'}
 
 
 if __name__ == '__main__':
     ip = ''
     port = 8000
-    http = make_server(ip, port, request_api)
+    http = make_server(ip, port, server_manager().request_api)
     print('serving http on port {0}...'.format(str(port)))
     http.serve_forever()
