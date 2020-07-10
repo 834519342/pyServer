@@ -1,7 +1,14 @@
-
-import json, mysql_manager
+import json
+import mysql_manager
 from wsgiref.simple_server import make_server
 from urllib.parse import parse_qs
+from loguru import logger
+import os
+
+
+module_name = str(os.path.basename(__file__)).split('.')[0]  # 模块名
+logger.add("logs/%s.log" % module_name, rotation="10:00", encoding="utf-8", retention="3 days")
+
 # 定义返回的数据
 dataArr = [
     {
@@ -40,7 +47,7 @@ def request_api(environ, start_response):
     response_dic = {}
     # 域名路径
     path_info = environ['PATH_INFO']
-    print('PATH_INFO:', path_info)
+    logger.info('PATH_INFO:', path_info)
 
     # GET请求
     if request_method == 'GET':
@@ -74,14 +81,14 @@ def request_api(environ, start_response):
 def path_get(environ):
     # 获取网址附带参数 域名/?num=[1-3]
     params = parse_qs(environ['QUERY_STRING'])
-    print('params:', params)
+    logger.info('params:', params)
     value = params.get('num', [''])[0]
     # 默认值
     num = 0
     # 判断是否位数字
     if value.isdigit():
         num = int(value)
-    if num > 0 and num <= len(dataArr):
+    if 0 < num <= len(dataArr):
         arr = []
         for index in range(0, num):
             arr.append(dataArr[index])
@@ -100,13 +107,13 @@ def path_post(environ):
             # 获取请求参数
             request_body = environ['wsgi.input'].read(body_length)
             request_body = json.loads(request_body)
-            print('request_body:', request_body)
+            logger.info('request_body:', request_body)
             value = str(request_body['num'])
             # 默认值
             num = 0
             if value.isdigit():
                 num = int(value)
-            if num > 0 and num <= len(dataArr):
+            if 0 < num <= len(dataArr):
                 arr = []
                 for index in range(0, num):
                     arr.append(dataArr[index])
@@ -114,8 +121,6 @@ def path_post(environ):
     return {'code': '200', 'data': dataArr}
 
 
-'''
-'''
 class server_manager(object):
 
     def __init__(self):
@@ -127,7 +132,7 @@ class server_manager(object):
         response_dic = {}
         # 域名路径
         path_info = environ['PATH_INFO']
-        print('PATH_INFO:', path_info)
+        logger.info('PATH_INFO:', path_info)
 
         # GET请求
         if request_method == 'GET':
@@ -173,7 +178,7 @@ class server_manager(object):
                 # 获取请求参数
                 request_body = environ['wsgi.input'].read(body_length)
                 request_body = json.loads(request_body)
-                print('request_body:', request_body)
+                logger.info('request_body:', request_body)
                 return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
 
         return {'code': '-100', 'data': 'NULL'}
@@ -188,7 +193,7 @@ class server_manager(object):
                 # 获取请求参数
                 request_body = environ['wsgi.input'].read(body_length)
                 request_body = json.loads(request_body)
-                # print('request_body:', request_body)
+                logger.info('request_body:', request_body)
                 self.mysql.insert_data(request_body['userID'], request_body['data'])
                 return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
 
@@ -204,7 +209,7 @@ class server_manager(object):
                 # 获取请求参数
                 request_body = environ['wsgi.input'].read(body_length)
                 request_body = json.loads(request_body)
-                print('request_body:', request_body)
+                logger.info('request_body:', request_body)
                 self.mysql.delete_data(request_body['id'])
                 return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
 
@@ -220,7 +225,7 @@ class server_manager(object):
                 # 获取请求参数
                 request_body = environ['wsgi.input'].read(body_length)
                 request_body = json.loads(request_body)
-                print('request_body:', request_body)
+                logger.info('request_body:', request_body)
                 self.mysql.update_data(request_body['id'], request_body['data'])
                 return {'code': '200', 'data': self.mysql.fetch_data(request_body['userID'])}
 
@@ -231,5 +236,5 @@ if __name__ == '__main__':
     ip = ''
     port = 8000
     http = make_server(ip, port, server_manager().request_api)
-    print('serving http on port {0}...'.format(str(port)))
+    logger.info('serving http on port {0}...'.format(str(port)))
     http.serve_forever()

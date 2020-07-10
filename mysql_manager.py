@@ -1,6 +1,6 @@
-
 import pymysql
 import json
+from loguru import logger
 
 
 class MySQL_manager(object):
@@ -20,8 +20,9 @@ class MySQL_manager(object):
         cursor.execute("SELECT VERSION()")
         # 获取单条数据
         data = cursor.fetchone()
-        print("Database version: %s" % data)
+        logger.info("Database version: %s" % data)
         # 关闭数据库连接
+        cursor.close()
         db.close()
 
     def create_table(self):
@@ -41,6 +42,7 @@ class MySQL_manager(object):
         sql = 'alter table sdk_config auto_increment=1'
         cursor.execute(sql)
 
+        cursor.close()
         db.close()
 
     def insert_data(self, user_id='1000', data=''):
@@ -50,7 +52,7 @@ class MySQL_manager(object):
         cursor = db.cursor()
         # 转json数据 ensure_ascii=False, 才可以包含非ascii字符\
         json_str = json.dumps(data, ensure_ascii=False)
-        # print(json_str)
+        logger.info(json_str)
         # 编辑权限
         permissions = 1
         if user_id == '1000':
@@ -62,11 +64,13 @@ class MySQL_manager(object):
             cursor.execute(sql)
             # 提交到数据库
             db.commit()
-            print('insert success')
-        except:
+            logger.info('insert success')
+        except Exception as e:
             # 如果发生错误则回滚
-            print('insert error')
             db.rollback()
+            logger.exception('Exception: %s | What?' % e)
+
+        cursor.close()
         db.close()
 
     def fetch_data(self, user_id='1000'):
@@ -85,9 +89,11 @@ class MySQL_manager(object):
                 data = row[3]
                 dic = {'id': id, 'userID': userID, 'permissions': permissions, 'data': json.loads(data)}
                 data_arr.append(dic)
-                print("id = %d, userID = %s, permissions = %d data = %s" % (id, userID, permissions, json.loads(data)))
-        except:
-            print("Error: unable to fetch data")
+                logger.info("id = %d, userID = %s, permissions = %d data = %s" % (id, userID, permissions, json.loads(data)))
+        except Exception as e:
+            logger.exception('Exception: %s | What?' % e)
+
+        cursor.close()
         db.close()
         return data_arr
 
@@ -102,8 +108,12 @@ class MySQL_manager(object):
         try:
             cursor.execute(sql)
             db.commit()
-        except:
+        except Exception as e:
+            # 如果发生错误则回滚
             db.rollback()
+            logger.exception('Exception: %s | What?' % e)
+
+        cursor.close()
         db.close()
 
     def delete_data(self, id=0):
@@ -116,8 +126,12 @@ class MySQL_manager(object):
         try:
             cursor.execute(sql)
             db.commit()
-        except:
+        except Exception as e:
+            # 如果发生错误则回滚
             db.rollback()
+            logger.exception('Exception: %s | What?' % e)
+
+        cursor.close()
         db.close()
 
 
