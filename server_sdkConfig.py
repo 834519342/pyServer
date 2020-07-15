@@ -9,35 +9,53 @@ import os
 module_name = str(os.path.basename(__file__)).split('.')[0]  # 模块名
 logger.add("logs/%s.log" % module_name, rotation="10:00", encoding="utf-8", retention="3 days")
 
-# 定义返回的数据
+# 返回的数据
 dataArr = [
     {
-        'name': '默认配置',
-        'snuser': 'appjiangcimangthreathuntercn',
-        'applicationId': 'default',
-        'publicKey': '-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----',
-        'collectURL': 'https://zqjBWuxbXzrk.yazx.com',
-        'snkey': '',
-        'version': '1.0.0',
+        "name": "默认配置",
+        "snkey": "",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
     },
     {
-        'name': 'Check token',
-        'snuser': 'appjiangcimangthreathuntercn',
-        'applicationId': 'default',
-        'publicKey': '',
-        'collectURL': 'https://rcapi.threathunter.cn',
-        'snkey': 'G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul',
-        'version': '1.0.0'
+        "name": "Check token",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://rcapi.yazx.com",
+        "applicationId": "default"
     },
     {
-        'name': '完美世界',
-        'snuser': 'TomdoXQ8shq7wVdU',
-        'applicationId': 'default',
-        'publicKey': '-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2NTQTGYVQ7EMJU+sjaY4Xp09MowG4lZpeyHLm0u14gVGFovbmXNJf35Xw+3NbsGGkr7VcTqEK8rFKSxeS6PHHDQiM66IZ4ge7d9itydaI2NrXy5X4U6KiIFh5VoTk5Uv8X/uUqLeAWTa1lHeY+8JbDKyweTUcnhDh0j/LErM1CBaUVJUF4h+JFnrJcIL+Zf+RG+VeAe9yDioleCiDDgeZ0Pe5n/6fC5mldiFhbT85wKFG7A80Gj2sbrlvzMybb1A9bttxXZOHtPqkCXse5g5td8opJfV+HtHMF2KM9wf41F8lwKU+FPo+JBVWNZ8C078NrxsDk1sRqPsLgjuJmBNxwIDAQAB-----END PUBLIC KEY-----',
-        'collectURL': 'http://182.61.172.131:7006',
-        'snkey': 'bpeN_ZF,oLonHM|Stu2m_dHjdPxA~7vl',
-        'version': '1.0.0'
-    }
+        "name": "完美世界",
+        "snkey": "bpeN_ZF,oLonHM|Stu2m_dHjdPxA~7vl",
+        "snuser": "TomdoXQ8shq7wVdU",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2NTQTGYVQ7EMJU+sjaY4Xp09MowG4lZpeyHLm0u14gVGFovbmXNJf35Xw+3NbsGGkr7VcTqEK8rFKSxeS6PHHDQiM66IZ4ge7d9itydaI2NrXy5X4U6KiIFh5VoTk5Uv8X/uUqLeAWTa1lHeY+8JbDKyweTUcnhDh0j/LErM1CBaUVJUF4h+JFnrJcIL+Zf+RG+VeAe9yDioleCiDDgeZ0Pe5n/6fC5mldiFhbT85wKFG7A80Gj2sbrlvzMybb1A9bttxXZOHtPqkCXse5g5td8opJfV+HtHMF2KM9wf41F8lwKU+FPo+JBVWNZ8C078NrxsDk1sRqPsLgjuJmBNxwIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "http://182.61.172.131:7006",
+        "applicationId": "default"
+    },
+    {
+        "name": "aaa",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "13",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://qwtzfuv4h-private-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    },
+    {
+        "name": "Ceshi",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "13",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    },
 ]
 
 
@@ -234,7 +252,7 @@ class server_manager(object):
 
 if __name__ == '__main__':
     ip = ''
-    port = 8000
+    port = 9090
     http = make_server(ip, port, server_manager().request_api)
     logger.info('serving http on port {0}...'.format(str(port)))
     http.serve_forever()
