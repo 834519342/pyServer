@@ -5,12 +5,13 @@ from loguru import logger
 
 class MySQL_manager(object):
 
-    def __init__(self, server='localhost', root='root', pw='rootroot', db='firstDB'):
+    def __init__(self, server='localhost', root='root', pw='rootroot', db='ios_sdk_data'):
         self.__server = server
         self.__root = root
         self.__pw = pw
         self.__db = db
 
+    # 测试是否连通
     def mysql_version(self):
         # 连接数据库
         db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
@@ -25,18 +26,19 @@ class MySQL_manager(object):
         cursor.close()
         db.close()
 
-    def create_table(self):
+    # 重置表
+    def reset_table(self):
         db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
         cursor = db.cursor()
         # 如果表存在则删除
-        cursor.execute('DROP TABLE IF EXISTS tableTest')
+        cursor.execute('DROP TABLE IF EXISTS sdk_config')
 
         # 创建新表 id 自增主键
         sql = '''CREATE TABLE sdk_config (
                     id int auto_increment primary key,
                     userID text,
                     permissions int,
-                    data json)'''
+                    data text)'''
         cursor.execute(sql)
 
         sql = 'alter table sdk_config auto_increment=1'
@@ -136,21 +138,62 @@ class MySQL_manager(object):
 
 
 if __name__ == '__main__':
-    # connect_sql()
-    # create_table()
-    #
-    # dic = {'name': '默认配置', 'snuser': 'appjiangcimangthreathuntercn', 'applicationId': 'default',
-    #        'collectURL': 'https://zqjBWuxbXzrk.yazx.com', 'snkey': '', 'version': '12',
-    #        'publicKey': '-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----'}
-    # insert_data('1001', dic)
-
-    # dic = {'name': '默认配置', 'snuser': 'appjiangcimangthreathuntercn', 'applicationId': 'default',
-    #        'collectURL': 'https://zqjBWuxbXzrk.yazx.com', 'snkey': '', 'version': '12',
-    #        'publicKey': ''}
-    # update_data(2, dic)
-
-    # delete_data(3)
-    #
     manager = MySQL_manager()
-    manager.fetch_data('1001')
+    manager.reset_table()
 
+    dic = {
+        "name": "默认配置",
+        "snkey": "",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
+        }
+    manager.insert_data('1000', dic)
+
+    dic = {
+        "name": "Check token",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://rcapi.yazx.com",
+        "applicationId": "default"
+    }
+    manager.insert_data('1000', dic)
+
+    dic = {
+        "name": "完美世界",
+        "snkey": "bpeN_ZF,oLonHM|Stu2m_dHjdPxA~7vl",
+        "snuser": "TomdoXQ8shq7wVdU",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2NTQTGYVQ7EMJU+sjaY4Xp09MowG4lZpeyHLm0u14gVGFovbmXNJf35Xw+3NbsGGkr7VcTqEK8rFKSxeS6PHHDQiM66IZ4ge7d9itydaI2NrXy5X4U6KiIFh5VoTk5Uv8X/uUqLeAWTa1lHeY+8JbDKyweTUcnhDh0j/LErM1CBaUVJUF4h+JFnrJcIL+Zf+RG+VeAe9yDioleCiDDgeZ0Pe5n/6fC5mldiFhbT85wKFG7A80Gj2sbrlvzMybb1A9bttxXZOHtPqkCXse5g5td8opJfV+HtHMF2KM9wf41F8lwKU+FPo+JBVWNZ8C078NrxsDk1sRqPsLgjuJmBNxwIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "http://182.61.172.131:7006",
+        "applicationId": "default"
+    }
+    manager.insert_data('1000', dic)
+
+    dic = {
+        "name": "aaa",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "13",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://qwtzfuv4h-private-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    }
+    manager.insert_data('1001', dic)
+
+    dic = {
+        "name": "Ceshi",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "13",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    }
+    manager.insert_data('1001', dic)
+
+    manager.fetch_data('1001')
