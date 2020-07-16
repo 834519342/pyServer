@@ -2,10 +2,64 @@ import pymysql
 import json
 from loguru import logger
 
+# 默认数据
+dataArr = [
+    {
+        "userID": "1000",
+        "name": "默认配置",
+        "snkey": "",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    },
+    {
+        "userID": "1000",
+        "name": "Check token",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://rcapi.yazx.com",
+        "applicationId": "default"
+    },
+    {
+        "userID": "1000",
+        "name": "完美世界",
+        "snkey": "bpeN_ZF,oLonHM|Stu2m_dHjdPxA~7vl",
+        "snuser": "TomdoXQ8shq7wVdU",
+        "version": "12",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2NTQTGYVQ7EMJU+sjaY4Xp09MowG4lZpeyHLm0u14gVGFovbmXNJf35Xw+3NbsGGkr7VcTqEK8rFKSxeS6PHHDQiM66IZ4ge7d9itydaI2NrXy5X4U6KiIFh5VoTk5Uv8X/uUqLeAWTa1lHeY+8JbDKyweTUcnhDh0j/LErM1CBaUVJUF4h+JFnrJcIL+Zf+RG+VeAe9yDioleCiDDgeZ0Pe5n/6fC5mldiFhbT85wKFG7A80Gj2sbrlvzMybb1A9bttxXZOHtPqkCXse5g5td8opJfV+HtHMF2KM9wf41F8lwKU+FPo+JBVWNZ8C078NrxsDk1sRqPsLgjuJmBNxwIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "http://182.61.172.131:7006",
+        "applicationId": "default"
+    },
+    {
+        "userID": "1001",
+        "name": "aaa",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "13",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://qwtzfuv4h-private-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    },
+    {
+        "userID": "1001",
+        "name": "Ceshi",
+        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
+        "snuser": "appjiangcimangthreathuntercn",
+        "version": "13",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    },
+]
+
 
 class MySQL_manager(object):
 
-    def __init__(self, server='localhost', root='root', pw='rootroot', db='ios_sdk_data'):
+    def __init__(self, server='localhost', root='root', pw='rootroot', db='ios_sdk_db'):
         self.__server = server
         self.__root = root
         self.__pw = pw
@@ -47,8 +101,8 @@ class MySQL_manager(object):
         cursor.close()
         db.close()
 
-    def insert_data(self, user_id='1000', data=''):
-        if data == '':
+    def insert_data(self, user_id='1000', data=None):
+        if not data:
             return
         db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
         cursor = db.cursor()
@@ -142,59 +196,7 @@ if __name__ == '__main__':
     manager.mysql_version()
     manager.reset_table()
 
-    dic = {
-        "name": "默认配置",
-        "snkey": "",
-        "snuser": "appjiangcimangthreathuntercn",
-        "version": "12",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
-        "applicationId": "default"
-        }
-    manager.insert_data('1000', dic)
-
-    dic = {
-        "name": "Check token",
-        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
-        "snuser": "appjiangcimangthreathuntercn",
-        "version": "12",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "https://rcapi.yazx.com",
-        "applicationId": "default"
-    }
-    manager.insert_data('1000', dic)
-
-    dic = {
-        "name": "完美世界",
-        "snkey": "bpeN_ZF,oLonHM|Stu2m_dHjdPxA~7vl",
-        "snuser": "TomdoXQ8shq7wVdU",
-        "version": "12",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2NTQTGYVQ7EMJU+sjaY4Xp09MowG4lZpeyHLm0u14gVGFovbmXNJf35Xw+3NbsGGkr7VcTqEK8rFKSxeS6PHHDQiM66IZ4ge7d9itydaI2NrXy5X4U6KiIFh5VoTk5Uv8X/uUqLeAWTa1lHeY+8JbDKyweTUcnhDh0j/LErM1CBaUVJUF4h+JFnrJcIL+Zf+RG+VeAe9yDioleCiDDgeZ0Pe5n/6fC5mldiFhbT85wKFG7A80Gj2sbrlvzMybb1A9bttxXZOHtPqkCXse5g5td8opJfV+HtHMF2KM9wf41F8lwKU+FPo+JBVWNZ8C078NrxsDk1sRqPsLgjuJmBNxwIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "http://182.61.172.131:7006",
-        "applicationId": "default"
-    }
-    manager.insert_data('1000', dic)
-
-    dic = {
-        "name": "aaa",
-        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
-        "snuser": "appjiangcimangthreathuntercn",
-        "version": "13",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "https://qwtzfuv4h-private-device-fingerprint.yazx.com",
-        "applicationId": "default"
-    }
-    manager.insert_data('1001', dic)
-
-    dic = {
-        "name": "Ceshi",
-        "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
-        "snuser": "appjiangcimangthreathuntercn",
-        "version": "13",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
-        "applicationId": "default"
-    }
-    manager.insert_data('1001', dic)
+    for data_dic in dataArr:
+        manager.insert_data(data_dic["userID"], data_dic)
 
     manager.fetch_data('1001')
