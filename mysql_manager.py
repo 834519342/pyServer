@@ -139,6 +139,7 @@ class MySQL_manager(object):
 
 if __name__ == '__main__':
     manager = MySQL_manager()
+    manager.mysql_version()
     manager.reset_table()
 
     dic = {
