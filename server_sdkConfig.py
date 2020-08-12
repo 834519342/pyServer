@@ -4,11 +4,6 @@ from mysql_manager import dataArr
 from wsgiref.simple_server import make_server
 from urllib.parse import parse_qs
 from loguru import logger
-import os
-
-
-module_name = str(os.path.basename(__file__)).split('.')[0]  # 模块名
-logger.add("logs/%s.log" % module_name, rotation="10:00", encoding="utf-8", retention="3 days")
 
 
 def request_api(environ, start_response):
@@ -203,7 +198,7 @@ class server_manager(object):
 
 
 if __name__ == '__main__':
-    ip = ''
+    ip = 'localhost'
     port = 9090
     http = make_server(ip, port, server_manager().request_api)
     logger.info('serving http on port %s...' % port)

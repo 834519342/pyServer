@@ -1,6 +1,11 @@
 import pymysql
 import json
 from loguru import logger
+import os
+
+
+module_name = str(os.path.basename(__file__)).split('.')[0]  # 模块名
+logger.add("logs/%s.log" % module_name, rotation="10:00", encoding="utf-8", retention="3 days")
 
 # 默认数据
 dataArr = [
@@ -67,128 +72,146 @@ class MySQL_manager(object):
 
     # 测试是否连通
     def mysql_version(self):
-        # 连接数据库
-        db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
-        # 获取游标对象
-        cursor = db.cursor()
-        # 执行SQL命令
-        cursor.execute("SELECT VERSION()")
-        # 获取单条数据
-        data = cursor.fetchone()
-        logger.info("Database version: %s" % data)
-        # 关闭数据库连接
-        cursor.close()
-        db.close()
+        try:
+            # 连接数据库
+            db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
+            # 获取游标对象
+            cursor = db.cursor()
+            # 执行SQL命令
+            cursor.execute("SELECT VERSION()")
+            # 获取单条数据
+            data = cursor.fetchone()
+            logger.info("Database version: %s" % data)
+            # 关闭数据库连接
+            cursor.close()
+            db.close()
+        except Exception as e:
+            logger.exception('Exception: %s | What?' % e)
 
     # 重置表
     def reset_table(self):
-        db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
-        cursor = db.cursor()
-        # 如果表存在则删除
-        cursor.execute('DROP TABLE IF EXISTS sdk_config')
+        try:
+            db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
+            cursor = db.cursor()
+            # 如果表存在则删除
+            cursor.execute('DROP TABLE IF EXISTS sdk_config')
 
-        # 创建新表 id 自增主键
-        sql = '''CREATE TABLE sdk_config (
-                    id int auto_increment primary key,
-                    userID text,
-                    permissions int,
-                    data text)'''
-        cursor.execute(sql)
+            # 创建新表 id 自增主键
+            sql = '''CREATE TABLE sdk_config (
+                        id int auto_increment primary key,
+                        userID text,
+                        permissions int,
+                        data text)'''
+            cursor.execute(sql)
 
-        sql = 'alter table sdk_config auto_increment=1'
-        cursor.execute(sql)
+            sql = 'alter table sdk_config auto_increment=1'
+            cursor.execute(sql)
 
-        cursor.close()
-        db.close()
+            cursor.close()
+            db.close()
+        except Exception as e:
+            logger.exception('Exception: %s | What?' % e)
 
     def insert_data(self, user_id='1000', data=None):
-        if not data:
-            return
-        db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
-        cursor = db.cursor()
-        # 转json数据 ensure_ascii=False, 才可以包含非ascii字符\
-        json_str = json.dumps(data, ensure_ascii=False)
-        logger.info(json_str)
-        # 编辑权限
-        permissions = 1
-        if user_id == '1000':
-            permissions = 0
-        # 插入数据
-        sql = "insert into sdk_config(userID, data, permissions) VALUES ('%s', '%s', %d)" %\
-              (user_id, json_str, permissions)
         try:
-            cursor.execute(sql)
-            # 提交到数据库
-            db.commit()
-            logger.info('insert success')
-        except Exception as e:
-            # 如果发生错误则回滚
-            db.rollback()
-            logger.exception('Exception: %s | What?' % e)
+            if not data:
+                return
+            db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
+            cursor = db.cursor()
+            # 转json数据 ensure_ascii=False, 才可以包含非ascii字符\
+            json_str = json.dumps(data, ensure_ascii=False)
+            logger.info(json_str)
+            # 编辑权限
+            permissions = 1
+            if user_id == '1000':
+                permissions = 0
+            # 插入数据
+            sql = "insert into sdk_config(userID, data, permissions) VALUES ('%s', '%s', %d)" %\
+                  (user_id, json_str, permissions)
+            try:
+                cursor.execute(sql)
+                # 提交到数据库
+                db.commit()
+                logger.info('insert success')
+            except Exception as e:
+                # 如果发生错误则回滚
+                db.rollback()
+                logger.exception('Exception: %s | What?' % e)
 
-        cursor.close()
-        db.close()
+            cursor.close()
+            db.close()
+        except Exception as e:
+            logger.exception('Exception: %s | What?' % e)
 
     def fetch_data(self, user_id='1000'):
-        db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
-        cursor = db.cursor()
-        data_arr = []
-        # 查询
-        sql = "select * from sdk_config where userID = '1000' or userID = '%s'" % user_id
         try:
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            for row in results:
-                id = row[0]
-                userID = row[1]
-                permissions = row[2]
-                data = row[3]
-                dic = {'id': id, 'userID': userID, 'permissions': permissions, 'data': json.loads(data)}
-                data_arr.append(dic)
-                logger.info("id = %d, userID = %s, permissions = %d data = %s" % (id, userID, permissions, json.loads(data)))
+            db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
+            cursor = db.cursor()
+            data_arr = list()
+            # 查询
+            sql = "select * from sdk_config where userID = '1000' or userID = '%s'" % user_id
+            try:
+                cursor.execute(sql)
+                results = cursor.fetchall()
+                for row in results:
+                    id = row[0]
+                    userID = row[1]
+                    permissions = row[2]
+                    data = row[3]
+                    dic = {'id': id, 'userID': userID, 'permissions': permissions, 'data': json.loads(data)}
+                    data_arr.append(dic)
+                    logger.info("id = %d, userID = %s, permissions = %d data = %s" % (id, userID, permissions, json.loads(data)))
+            except Exception as e:
+                logger.exception('Exception: %s | What?' % e)
+
+            cursor.close()
+            db.close()
+            return data_arr
         except Exception as e:
             logger.exception('Exception: %s | What?' % e)
-
-        cursor.close()
-        db.close()
-        return data_arr
 
     def update_data(self, id=0, data=''):
-        if id == 0 or data == '':
-            return
-        db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
-        cursor = db.cursor()
-        # 更新
-        json_str = json.dumps(data, ensure_ascii=False)
-        sql = "update sdk_config set data = '%s' where id = %d and permissions = 1" % (json_str, id)
         try:
-            cursor.execute(sql)
-            db.commit()
-        except Exception as e:
-            # 如果发生错误则回滚
-            db.rollback()
-            logger.exception('Exception: %s | What?' % e)
+            if id == 0 or data == '':
+                return
+            db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
+            cursor = db.cursor()
+            # 更新
+            json_str = json.dumps(data, ensure_ascii=False)
+            sql = "update sdk_config set data = '%s' where id = %d and permissions = 1" % (json_str, id)
+            try:
+                cursor.execute(sql)
+                db.commit()
+            except Exception as e:
+                # 如果发生错误则回滚
+                db.rollback()
+                logger.exception('Exception: %s | What?' % e)
 
-        cursor.close()
-        db.close()
+            cursor.close()
+            db.close()
+        except Exception as e:
+            logger.exception('Exception: %s | What?' % e)
 
     def delete_data(self, id=0):
-        if id == 0:
-            return
-        db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
-        cursor = db.cursor()
-        # 删除
-        sql = "delete from sdk_config where id = %d and permissions = 1" % id
         try:
-            cursor.execute(sql)
-            db.commit()
-        except Exception as e:
-            # 如果发生错误则回滚
-            db.rollback()
-            logger.exception('Exception: %s | What?' % e)
+            if id == 0:
+                return
+            db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
+            cursor = db.cursor()
+            # 删除
+            sql = "delete from sdk_config where id = %d and permissions = 1" % id
+            try:
+                cursor.execute(sql)
+                db.commit()
+            except Exception as e:
+                # 如果发生错误则回滚
+                db.rollback()
+                logger.exception('Exception: %s | What?' % e)
 
-        cursor.close()
-        db.close()
+            cursor.close()
+            db.close()
+        except Exception as e:
+            logger.exception('Exception: %s | What?' % e)
 
 
 if __name__ == '__main__':
