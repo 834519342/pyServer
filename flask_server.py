@@ -115,4 +115,4 @@ def update_config():
 if __name__ == '__main__':
     mysql = mysql_manager.MySQL_manager()
     # app.debug = True  # 调试模式
-    app.run('localhost', '9090')
+    app.run(port='9090')
