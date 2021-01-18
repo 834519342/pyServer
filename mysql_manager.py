@@ -10,17 +10,7 @@ logger.add("logs/%s.log" % module_name, rotation="10:00", encoding="utf-8", rete
 # 默认数据
 dataArr = [
     {
-        "userID": "1000",
-        "name": "默认配置",
-        "snkey": "",
-        "snuser": "appjiangcimangthreathuntercn",
-        "version": "12",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
-        "applicationId": "default"
-    },
-    {
-        "userID": "1000",
+        "userID": "888888",
         "name": "Check token",
         "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
         "snuser": "appjiangcimangthreathuntercn",
@@ -30,17 +20,7 @@ dataArr = [
         "applicationId": "default"
     },
     {
-        "userID": "1000",
-        "name": "完美世界",
-        "snkey": "bpeN_ZF,oLonHM|Stu2m_dHjdPxA~7vl",
-        "snuser": "TomdoXQ8shq7wVdU",
-        "version": "12",
-        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2NTQTGYVQ7EMJU+sjaY4Xp09MowG4lZpeyHLm0u14gVGFovbmXNJf35Xw+3NbsGGkr7VcTqEK8rFKSxeS6PHHDQiM66IZ4ge7d9itydaI2NrXy5X4U6KiIFh5VoTk5Uv8X/uUqLeAWTa1lHeY+8JbDKyweTUcnhDh0j/LErM1CBaUVJUF4h+JFnrJcIL+Zf+RG+VeAe9yDioleCiDDgeZ0Pe5n/6fC5mldiFhbT85wKFG7A80Gj2sbrlvzMybb1A9bttxXZOHtPqkCXse5g5td8opJfV+HtHMF2KM9wf41F8lwKU+FPo+JBVWNZ8C078NrxsDk1sRqPsLgjuJmBNxwIDAQAB-----END PUBLIC KEY-----",
-        "collectURL": "http://182.61.172.131:7006",
-        "applicationId": "default"
-    },
-    {
-        "userID": "1001",
+        "userID": "888888",
         "name": "aaa",
         "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
         "snuser": "appjiangcimangthreathuntercn",
@@ -50,13 +30,23 @@ dataArr = [
         "applicationId": "default"
     },
     {
-        "userID": "1001",
+        "userID": "888888",
         "name": "Ceshi",
         "snkey": "G@>r@#atxwbJt1f7-nRByQUBj@1UJ>ul",
         "snuser": "appjiangcimangthreathuntercn",
         "version": "13",
         "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
         "collectURL": "https://nmpbosr72matlv-device-fingerprint.yazx.com",
+        "applicationId": "default"
+    },
+    {
+        "userID": "210118",
+        "name": "amber",
+        "snkey": "P2iNZXwrtWiq#$Avgi>nIcqmwRRWzlv0",
+        "snuser": "Orxtp9BbPvv1rjZG",
+        "version": "14",
+        "publicKey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxHJS9F8OwaDDfJfEp1NfT7voRTOeWMDPPpFKvDkiB6UUmvoUCHv2LsNUYua5CREtP0m0c5UpkV9/o8cO8YcCZhqfVTUJjRMqaFU1BKSljI2ze2kc6F+IST9Y/JmodPzPe2+aOWsep3F1aMi2WZY70ldmB+3GwX4EKkZs36BHq2tWZmSVUwHSrGE0EaqEGfWWQFT3cHIHtDiuzm/3NYU9+J4KDN64mHAQxgAvjDMugUAob0atgfoB/6NByK+e1BgBtvOS4eHi/Pk2rjm2I+G6XWc1psW7BGW7BvjqDaddyi/rRVgSWfdDrgR17f2CtpPIMx10MVm8/Y0ytTXj/+upKQIDAQAB-----END PUBLIC KEY-----",
+        "collectURL": "https://rcapi.yazx.com",
         "applicationId": "default"
     },
 ]
@@ -112,7 +102,7 @@ class MySQL_manager(object):
         except Exception as e:
             logger.exception('Exception: %s | What?' % e)
 
-    def insert_data(self, user_id='1000', data=None):
+    def insert_data(self, user_id='888888', data=None):
         try:
             if not data:
                 return
@@ -123,7 +113,7 @@ class MySQL_manager(object):
             logger.info(json_str)
             # 编辑权限
             permissions = 1
-            if user_id == '1000':
+            if user_id == '888888':
                 permissions = 0
             # 插入数据
             sql = "insert into sdk_config(userID, data, permissions) VALUES ('%s', '%s', %d)" %\
@@ -143,13 +133,13 @@ class MySQL_manager(object):
         except Exception as e:
             logger.exception('Exception: %s | What?' % e)
 
-    def fetch_data(self, user_id='1000'):
+    def fetch_data(self, user_id='888888'):
         try:
             db = pymysql.connect(self.__server, self.__root, self.__pw, self.__db)
             cursor = db.cursor()
             data_arr = list()
             # 查询
-            sql = "select * from sdk_config where userID = '1000' or userID = '%s'" % user_id
+            sql = "select * from sdk_config where userID = '888888' or userID = '%s'" % user_id
             try:
                 cursor.execute(sql)
                 results = cursor.fetchall()
@@ -222,4 +212,4 @@ if __name__ == '__main__':
     for data_dic in dataArr:
         manager.insert_data(data_dic["userID"], data_dic)
 
-    manager.fetch_data('1001')
+    manager.fetch_data('888888')
