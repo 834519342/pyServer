@@ -54,7 +54,7 @@ dataArr = [
 
 class MySQL_manager(object):
 
-    def __init__(self, server='localhost', root='root', pw='rootroot', db='ios_sdk_db'):
+    def __init__(self, server='localhost', root='root', pw='rootroot', db='ios_sdk_db'):  # 服务器没有密码
         self.__server = server
         self.__root = root
         self.__pw = pw
@@ -139,7 +139,10 @@ class MySQL_manager(object):
             cursor = db.cursor()
             data_arr = list()
             # 查询
-            sql = "select * from sdk_config where userID = '888888' or userID = '%s'" % user_id
+            if user_id == '888888':
+                sql = "select * from sdk_config" % user_id
+            else:
+                sql = "select * from sdk_config where userID = '%s'" % user_id
             try:
                 cursor.execute(sql)
                 results = cursor.fetchall()
