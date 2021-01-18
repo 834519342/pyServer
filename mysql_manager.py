@@ -140,7 +140,7 @@ class MySQL_manager(object):
             data_arr = list()
             # 查询
             if user_id == '888888':
-                sql = "select * from sdk_config" % user_id
+                sql = "select * from sdk_config"
             else:
                 sql = "select * from sdk_config where userID = '%s'" % user_id
             try:
